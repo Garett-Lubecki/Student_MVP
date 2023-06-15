@@ -4,12 +4,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-
 const pool = new Pool ({
     connectionString: process.env.DATABASE_URL
 })
 
 const app = express();
+app.use(express.static('public'))
 app.use(express.json());
 
 app
