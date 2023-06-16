@@ -4,10 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type='text/css' href="style.css">
+    <title>dogFinder</title>
 </head>
 <body>
-    <p>working</p>
+    <nav id='navBar'>
+        <div id='homeBTN' class="navButtons"> 
+            <a href="#"><b>dogFinder</b></a>
+        </div>
+        <div id="navLinks">
+        <ul id = 'navList'>
+            <li id="showAll" class="navButtons">
+                <a href='#'> Availible Best Friends </a>
+            </li>
+            <li id="showPost" class="navButtons">
+                <a href='#'> Add New Listing</a>
+            </li>
+        </ul>
+        </div>
+    </nav>  
+    <div id="trackerDiv"> 
+            <p id="guildStatement">Find a dog, bring home a new part of the family</p>
+            <!-- add tracker -->
+
+    </div>
+    <div id="searchContainer">
+        <div id="searchBar"> 
+            <input type="text" placeholder="id" id="searchTXT"> 
+            <button type="submit" id="searchBTN"> <img id= 'searchImg' src= "./images/search-icon.png"  ></img> </button> 
+        </div>
+    </div>
 </body>
 <script src="main.js"> </script>
 </html>

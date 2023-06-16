@@ -1,0 +1,163 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#navBar {
+    display: flex;
+    height: 20%;    
+    width: 100%;
+    padding: 20px;
+    position: static;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url('./patern.webp');
+    color: white;
+    border-color: #101010e7;
+    border-style: solid;
+    border-width: 1px;
+    font-family: 'Norse', sans-serif;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+}
+
+#homeBTN {
+    font-size: 100px;
+    margin: 10px;
+    padding-left: 2%;
+}
+
+
+#homeBTN a {
+    text-decoration: none;
+    color: rgb(197, 197, 197);
+    padding: 10px;
+}
+
+#navLinks ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-size: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 900px;
+}
+#navLinks li a {
+    text-decoration: none;
+    color: rgb(197, 197, 197);
+    padding: 10px;
+    display: block;
+}
+
+.navButtons :hover{
+    background-color: gray;
+    height: auto;
+    width: auto;
+    border-radius: 10px;
+    border-color: gray;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#trackerDiv{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+#guildStatement{
+    text-align: center;
+    height: 100px;
+    width:  400px ;
+
+}
+#backgroundContainer{
+font-family: Arial, Helvetica, sans-serif;
+max-width: 100%;
+height: 100vh;   
+display: block;
+padding: 0;
+margin: auto;
+background-image: linear-gradient(rgba(0, 0, 0, 0.598), rgba(34, 32, 32, 0.62)), url('beer\ background.avif');
+position: relative;
+background-size: cover;
+flex-direction: column;
+/* overflow: hidden; */
+display: flex;
+justify-content: center;
+align-items: center;
+backdrop-filter: blue(10px);
+}
+
+#searchBar {
+    background-color:rgba(34, 32, 32, 0.62);
+    min-width: 500px;
+    max-width: 800px;
+    height: 100px;
+    border: none;
+    border-radius:100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+#searchBTN {
+    height: 70px;
+    width: 70px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(204, 198, 198, .2);
+}
+#searchImg {
+    height: 50px;
+    width: 50px; 
+}
+#searchBTN :hover{
+    cursor: pointer;
+}
+#searchTXT {
+    background-color: transparent;
+    flex: 1;
+    padding-left: 30px;
+    height: 90%;
+    width: 80%;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: rgb(197, 197, 197);
+}
+
+::placeholder {
+    color:rgb(197, 197, 197);
+}
+#adSearch{
+    background-color: rgba(34, 34, 34, 0.552);
+    height: 100px;
+    width: 300px;
+    color: rgb(197, 197, 197);
+    font-size: 25px;
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#searchContainer{
+    display: flex;
+    height: 400px;
+    width: 400px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
