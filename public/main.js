@@ -55,10 +55,7 @@ async function getOneRequest (searchValue) {
     catch(err){
         console.log(err)
     }
-    }
-
-
-    
+    } 
 
 function changeDisplay() {
     document.getElementById("trackerDiv").style.display = "none"
@@ -101,7 +98,7 @@ function createSearchAll(element){
         textDiv.appendChild(about);
         document.getElementById("main").appendChild(container);
 
-        document.querySelector(`#${element.name}`).addEventListener( 'click', (e) => {
+        document.getElementById(`${element.name}`).addEventListener( 'click', (e) => {
             deleteCurrentDisplay()
             createMainContainer()
             createLargePage(element)
@@ -131,12 +128,22 @@ function createLargePage(element) {
     let deleteBtn = document.createElement('button');
     deleteBtn.id = 'deleteBTN'
     deleteBtn.classList = 'BTN'
-    let img = document.createElement('img')
-    img.src = "./images/trash.png" 
-    img.classList = 'Img'
-    img.id = 'searchImg'
+    let deleteImg = document.createElement('img')
+    deleteImg.src = "./images/trash.png" 
+    deleteImg.classList = 'Img'
+    deleteImg.id = 'deleteImg'
 
-    deleteBtn.appendChild(img)
+
+    let editBtn = document.createElement('button');
+    editBtn.id = 'editBTN'
+    editBtn.classList = 'BTN'
+    let editImg = document.createElement('img')
+    editImg.src = "./images/edit.png" 
+    editImg.classList = 'Img'
+    editImg.id = 'editImg'
+
+    deleteBtn.appendChild(deleteImg)
+    editBtn.appendChild(editImg)
 
     let textDiv = document.createElement("div");
     textDiv.setAttribute("id", "textHolder");
@@ -160,6 +167,7 @@ function createLargePage(element) {
   
     container.appendChild(textDiv);
     textDiv.appendChild(deleteBtn)
+    textDiv.appendChild(editBtn)
     textDiv.appendChild(title);
     textDiv.appendChild(location);
     textDiv.appendChild(demographics);
@@ -169,6 +177,13 @@ function createLargePage(element) {
     deleteBtn.addEventListener('click', () => {
         deleteRequest(element.pet_id)
 
+    })
+
+    editBtn.addEventListener('click', () => {
+        changeDisplay()
+        deleteCurrentDisplay()
+        createMainContainer()
+        createPutData(element)
     })
 }
 
@@ -257,8 +272,7 @@ async function postRequest (data) {
     catch(err){
         console.log(err)
     }
-    }
-
+}
 
 
 function resetScreen(boolean) {
@@ -284,6 +298,98 @@ async function deleteRequest(id) {
     const jsonData = await response.json()
     console.log(jsonData)
     changeDisplay()
+    deleteCurrentDisplay()
+    createMainContainer()
+    getAllRequest()
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+function createPutData (element){
+    let container = document.createElement("div");
+    container.setAttribute("id", `postContainer`);
+
+    let h3 = document.createElement('h3')
+    h3.textContent = 'Please fill in the information to the best of your ability.'
+    let form = document.createElement('form')
+    form.id = 'postForm'
+
+    let name = document.createElement('input')  
+    name.placeholder = 'Name'
+    name.className = 'input'
+    name.value = element.name
+    let breed = document.createElement('input')
+    breed.placeholder = 'Breed'
+    breed.className = 'input'
+    breed.value = element.breed
+    let size = document.createElement('input')
+    size.placeholder = 'Size (Small, Medium, or Large)'
+    size.className = 'input'
+    size.value = element.size
+    let gender = document.createElement('input')
+    gender.placeholder = 'Gender'
+    gender.className = 'input'
+    gender.value = element.size
+    let about = document.createElement('input')
+    about.placeholder = 'Descripton of you pet and what he/she is like.'
+    about.className = 'input'
+    about.value = element.about
+    let age = document.createElement('input')
+    age.placeholder = 'Age in years'
+    age.className = 'input'
+    age.value = element.age
+    let location = document.createElement('input')
+    location.placeholder = 'City/Town'
+    location.className = 'input'
+    location.value = element.location
+
+    let button = document.createElement('button')
+    button.type = 'submit'
+    button.id = 'submitBtn'
+    button.textContent = 'Add'
+
+    form.appendChild(name);
+    form.appendChild(breed);
+    form.appendChild(age);
+    form.appendChild(gender);
+    form.appendChild(size);
+    form.appendChild(location);
+    form.appendChild(about);
+    form.append(button)
+    
+    container.appendChild(h3);
+    container.appendChild(form);
+    document.getElementById("main").appendChild(container);
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let data = {
+            name: name.value,
+            breed: breed.value, 
+            size: size.value, 
+            gender: gender.value, 
+            age: age.value, 
+            about: about.value, 
+            location: location.value
+        }
+       putRequest(data, element.pet_id)
+})
+}
+
+
+async function putRequest(data, id){
+    try {
+        const response = await fetch(`http://localhost:8000/pets/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json"
+            }
+
+        }) 
+    const jsonData = await response.json()
     deleteCurrentDisplay()
     createMainContainer()
     getAllRequest()
