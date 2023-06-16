@@ -26,7 +26,7 @@ document.querySelector('#showPost').addEventListener('click', (e) => {
 
 async function getAllRequest () {
     try {
-        const response = await fetch(`http://localhost:8000/pets/`, {
+        const response = await fetch(`https://dog-finder.onrender.com/pets/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
