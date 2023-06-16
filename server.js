@@ -80,7 +80,7 @@ app
     .delete('/pets/:id', async (req, res) => {
         try {
             let { id } = req.params
-            let result = await pool.query('DELETE FROM pets WHERE pet_id = $1', [id])
+            let result = await pool.query('DELETE FROM pets WHERE pet_id = $1 RETURNING *', [id])
             res.status(200).send(result.rows)
         }
         catch(err) {
