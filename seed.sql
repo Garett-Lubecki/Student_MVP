@@ -9,15 +9,9 @@ CREATE TABLE pets (
     gender varchar,
     age varchar,
     about text,
+    image_path VARCHAR(255),
     location varchar NOT NULL
 );
 
-CREATE TABLE petimages (
-    image_id serial,
-    imageString text,
-    pet_id int,
-    FOREIGN KEY(pet_id) REFERENCES pets(pet_id)
-);
-
-INSERT INTO pets (name, breed, size, gender, age, about, location) VALUES ('Earl', 'Basset Hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA');
-INSERT INTO pets (name, breed, size, gender, age, about, location) VALUES ('Wilfred', 'Basset Hound', 'Medium', 'Male', '1 Year', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA');
+INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Earl', 'Basset Hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'earl.jpeg');
+INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Wilfred', 'Basset Hound', 'Medium', 'Male', '1 Year', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'wilfred.jpeg');

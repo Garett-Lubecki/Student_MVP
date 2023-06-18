@@ -1,25 +1,33 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
-const cors = require('cors')
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const path = require('path')
+
 
 dotenv.config();
 
 const pool = new Pool ({
     connectionString: process.env.DATABASE_URL
 })
-
 const app = express();
+
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 app.use(express.static('public'))
 app.use(cors({
     origin: "*", 
 }))
-app.use(express.json());
+app.use(fileUpload())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app
     .get("/pets", async (req, res) => {
         try {
-            let result = await pool.query('SELECT * FROM pets')
+            let result = await pool.query(
+                'SELECT * FROM pets')
             res.status(200).send(result.rows)
         }
         catch(err) {
@@ -32,7 +40,8 @@ app
         try {
             //work on getting type to work
             let { id } = req.params
-            let result = await pool.query('SELECT * FROM pets WHERE pet_id = $1', [id])
+            let result = await pool.query(
+                'SELECT * FROM pets WHERE pet_id = $1', [id])
             res.send(result.rows)
         }
         catch(err) {
@@ -43,12 +52,16 @@ app
     })
     .post("/pets", async (req, res) => {
         try {
-            let {name, breed, size, gender, age, about, location} = req.body
-            let result = await pool.query('INSERT INTO pets (name, breed, size, gender, age, about, location) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [name, breed, size, gender, age, about, location])
-            res.send(result.rows)
+            const { name, breed, size, gender, age, about, location } = req.body;
+            const image = req.files.image;
+            const imageFileName = Date.now() + '_' + image.name;
+            image.mv(path.join(__dirname, 'public/images', imageFileName));
+            const result = await pool.query(
+              'INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+              [name, breed, size, gender, age, about, location, `/${imageFileName}`])
         }
         catch(err) {
-            console.log(err.message) 
+            console.log(err) 
             res.status(404).send('Error during post.')
         }
         
@@ -56,7 +69,7 @@ app
     .put('/pets/:id', async (req, res) => {
         try{
             let { id } = req.params;
-            let {name, breed, size, gender, age, about, location} = req.body
+            let {name, breed, size, gender, age, about, location, image_path} = req.body
             let result = await pool.query('SELECT * FROM pets WHERE pet_id = $1', [id])
             let currentPet = result.rows[0]
             let updatedPet = {
@@ -66,9 +79,10 @@ app
                 gender: gender || currentPet.gender,
                 age: age || currentPet.age,
                 about: about || currentPet.about,
-                location: location || currentPet.location
+                location: location || currentPet.location,
+                image_path: image_path || currentPet.image_path
             }
-            let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7 WHERE pet_id = $8', [updatedPet.name, updatedPet.breed, updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, id])
+            let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7, image_path = $8 WHERE pet_id = $9', [updatedPet.name, updatedPet.breed, updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, updatedPet.image_path, id])
             res.status(200).send(updatedPet)
         }
         catch(err) {

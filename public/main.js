@@ -22,11 +22,11 @@ document.querySelector('#showPost').addEventListener('click', (e) => {
     createPostContainer()
 })
 
-
+//https://pets-8gj1.onrender.com/
 
 async function getAllRequest () {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+        const response = await fetch(`http://localhost:8000/pets`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -76,34 +76,40 @@ function createMainContainer() {
     document.querySelector("body").appendChild(main);
   }
 
-function createSearchAll(element){
-        let container = document.createElement("div");
-        container.setAttribute("id", `${element.name}`);
-        container.setAttribute("class", "divBackground");
-      
-        let textDiv = document.createElement("div");
-        textDiv.setAttribute("id", "textHolder");
-      
-        let title = document.createElement("div");
-        title.setAttribute("class", "title");
-        title.textContent += `${element.name}`;
-      
-        let about = document.createElement("div");
-        about.setAttribute("class", "about");
-        about.textContent = `${element.breed} | ${element.size} | ${element.age}`;
-      
-      
-        container.appendChild(textDiv);
-        textDiv.appendChild(title);
-        textDiv.appendChild(about);
-        document.getElementById("main").appendChild(container);
+function createSearchAll(element) {
+    let container = document.createElement("div");
+    container.setAttribute("id", `${element.name}`);
+    container.setAttribute("class", "divBackground");
 
-        document.getElementById(`${element.name}`).addEventListener( 'click', (e) => {
-            deleteCurrentDisplay()
-            createMainContainer()
-            createLargePage(element)
-        })
+    ///important
+    let petImage = document.createElement('img');
+    petImage.setAttribute('src', `http://localhost:8000/images/${element.image_path}`);
+    petImage.classList = 'petImages';
+
+    let textDiv = document.createElement("div");
+    textDiv.setAttribute("id", "textHolder");
+
+    let title = document.createElement("div");
+    title.setAttribute("class", "title");
+    title.textContent += `${element.name}`;
+
+    let about = document.createElement("div");
+    about.setAttribute("class", "about");
+    about.textContent = `${element.breed} | ${element.size} | ${element.age}`;
+
+    container.appendChild(textDiv);
+    textDiv.appendChild(petImage)
+    textDiv.appendChild(title);
+    textDiv.appendChild(about);
+    document.getElementById("main").appendChild(container);
+
+    document.getElementById(`${element.name}`).addEventListener('click', (e) => {
+        deleteCurrentDisplay()
+        createMainContainer()
+        createLargePage(element)
+    })
 }
+  
 
 function deleteCurrentDisplay() {
     let searchResults = document.getElementById("main")
@@ -145,6 +151,10 @@ function createLargePage(element) {
     deleteBtn.appendChild(deleteImg)
     editBtn.appendChild(editImg)
 
+    let petImage = document.createElement('img');
+    petImage.setAttribute('src', `http://localhost:8000/images/${element.image_path}`);
+    petImage.classList = 'singePetImage';
+
     let textDiv = document.createElement("div");
     textDiv.setAttribute("id", "textHolder");
   
@@ -168,6 +178,7 @@ function createLargePage(element) {
     container.appendChild(textDiv);
     textDiv.appendChild(deleteBtn)
     textDiv.appendChild(editBtn)
+    textDiv.appendChild(petImage)
     textDiv.appendChild(title);
     textDiv.appendChild(location);
     textDiv.appendChild(demographics);
@@ -219,6 +230,11 @@ function createPostContainer(){
     location.placeholder = 'City/Town'
     location.className = 'input'
 
+    let imageInput = document.createElement('input');
+    imageInput.type = 'file'
+    imageInput.id = 'image_file';
+    imageInput.classList = 'image_input'
+
     let button = document.createElement('button')
     button.type = 'submit'
     button.id = 'submitBtn'
@@ -231,6 +247,7 @@ function createPostContainer(){
     form.appendChild(size);
     form.appendChild(location);
     form.appendChild(about);
+    form.appendChild(imageInput);
     form.append(button)
     
     container.appendChild(h3);
@@ -239,32 +256,29 @@ function createPostContainer(){
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        let data = {
-            name: name.value,
-            breed: breed.value, 
-            size: size.value, 
-            gender: gender.value, 
-            age: age.value, 
-            about: about.value, 
-            location: location.value
-        }
-        console.log(data)
-        postRequest(data)
+
+        let formData = new FormData(form);
+        formData.append('name', name.value);
+        formData.append('breed', breed.value);
+        formData.append('size', size.value);
+        formData.append('gender', gender.value);
+        formData.append('age', age.value);
+        formData.append('about', about.value);
+        formData.append('location', location.value);
+        formData.append('image', imageInput.files[0])
+
+        postRequest(formData)
     })
 }
 
 //name, breed, size, gender, age, about, location
 //INSERT INTO pets (name, breed, size, gender, age, about, location) VALUES ('Earl', 'Basset Hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA');
 
-async function postRequest (data) {
+async function postRequest (formData) {
     try {
         const response = await fetch(`http://localhost:8000/pets`, {
             method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                "Content-type": "application/json"
-            }
-
+            body: formData
         }) 
     const jsonData = await response.json()
     resetScreen(jsonData)
