@@ -41,7 +41,7 @@ app
             //work on getting type to work
             let { id } = req.params
             let result = await pool.query(
-                'SELECT * FROM pets WHERE pet_id = $1', [id])
+                'SELECT * FROM pets WHERE breed = $1', [id.toLocaleLowerCase()])
             res.send(result.rows)
         }
         catch(err) {
@@ -53,12 +53,18 @@ app
     .post("/pets", async (req, res) => {
         try {
             const { name, breed, size, gender, age, about, location } = req.body;
-            const image = req.files.image;
-            const imageFileName = Date.now() + '_' + image.name;
-            image.mv(path.join(__dirname, 'public/images', imageFileName));
+            if(!req.files){
+                imageFileName = 'noimage.png'
+            }
+            else{
+                const image = req.files.image;
+                const imageFileName = Date.now() + '_' + image.name;
+                image.mv(path.join(__dirname, 'public/images', imageFileName));
+            }
             const result = await pool.query(
               'INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-              [name, breed, size, gender, age, about, location, `/${imageFileName}`])
+              [name, breed.toLocaleLowerCase(), size, gender, age, about, location, `/${imageFileName}`])
+            res.status(200).send(result.rows[0])
         }
         catch(err) {
             console.log(err) 
@@ -69,7 +75,10 @@ app
     .put('/pets/:id', async (req, res) => {
         try{
             let { id } = req.params;
-            let {name, breed, size, gender, age, about, location, image_path} = req.body
+            const { name, breed, size, gender, age, about, location } = req.body;
+            const image = req.files.image;
+            const imageFileName = Date.now() + '_' + image.name;
+
             let result = await pool.query('SELECT * FROM pets WHERE pet_id = $1', [id])
             let currentPet = result.rows[0]
             let updatedPet = {
@@ -80,9 +89,11 @@ app
                 age: age || currentPet.age,
                 about: about || currentPet.about,
                 location: location || currentPet.location,
-                image_path: image_path || currentPet.image_path
+                image_path: `${imageFileName}` || currentPet.image_path
             }
-            let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7, image_path = $8 WHERE pet_id = $9', [updatedPet.name, updatedPet.breed, updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, updatedPet.image_path, id])
+            image.mv(path.join(__dirname, 'public/images', updatedPet.image_path));
+            let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7, image_path = $8 WHERE pet_id = $9', [updatedPet.name, updatedPet.breed.toLocaleLowerCase(), updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, updatedPet.image_path, id])
+           
             res.status(200).send(updatedPet)
         }
         catch(err) {

@@ -13,5 +13,5 @@ CREATE TABLE pets (
     location varchar NOT NULL
 );
 
-INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Earl', 'Basset Hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'earl.jpeg');
-INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Wilfred', 'Basset Hound', 'Medium', 'Male', '1 Year', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'wilfred.jpeg');
+INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Earl', 'basset hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'earl.jpeg');
+INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ('Wilfred', 'basset hound', 'Medium', 'Male', '1 Year', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA', 'wilfred.jpeg');

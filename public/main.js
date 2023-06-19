@@ -1,3 +1,6 @@
+///////Student MVP ---Garett Lubecki///////
+
+/////Event Listeners
 document.querySelector('#searchBTN').addEventListener('click', (e) => {
     let searchValue = document.getElementById("searchTXT").value;
     getOneRequest(searchValue)
@@ -22,46 +25,18 @@ document.querySelector('#showPost').addEventListener('click', (e) => {
     createPostContainer()
 })
 
-//https://pets-8gj1.onrender.com/
+document.querySelector('#searchBTN').addEventListener('click', () => {
+    let searchValue = document.querySelector('#searchTXT').value
+    document.querySelector('#searchTXT').value = " "
+    changeDisplay()
+    deleteCurrentDisplay()
+    createMainContainer()
+    getOneRequest()
 
-async function getAllRequest () {
-    try {
-        const response = await fetch(`http://localhost:8000/pets`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-    const jsonData = await response.json()
-   jsonData.forEach(element => {
-        createSearchAll(element)
-    });
-    }
-    catch(err){
-        console.log(err)
-    }
-    }
+})
 
-async function getOneRequest (searchValue) {
-    try {
-        const response = await fetch(`http://localhost:8000/pets/${searchValue}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-    const jsonData = await response.json()
-    }
-    catch(err){
-        console.log(err)
-    }
-    } 
 
-function changeDisplay() {
-    document.getElementById("trackerDiv").style.display = "none"
-    document.getElementById("searchContainer").style.display = "none"
-}
-
+///////Creation of Containers base off of data/////////
 
 function createMainContainer() {
     let main = document.createElement("div");
@@ -87,7 +62,7 @@ function createSearchAll(element) {
     petImage.classList = 'petImages';
 
     let textDiv = document.createElement("div");
-    textDiv.setAttribute("id", "textHolder");
+    textDiv.setAttribute("class", "textHolder");
 
     let title = document.createElement("div");
     title.setAttribute("class", "title");
@@ -95,10 +70,14 @@ function createSearchAll(element) {
 
     let about = document.createElement("div");
     about.setAttribute("class", "about");
-    about.textContent = `${element.breed} | ${element.size} | ${element.age}`;
+    about.textContent = `${element.breed || 'No Breed'} | ${element.size || 'No Size'} | ${element.age || 'No Age'}`;
 
+    let imageDiv = document.createElement('div')
+    imageDiv.setAttribute('class', "information")
+
+    container.appendChild(imageDiv);
     container.appendChild(textDiv);
-    textDiv.appendChild(petImage)
+    imageDiv.appendChild(petImage)
     textDiv.appendChild(title);
     textDiv.appendChild(about);
     document.getElementById("main").appendChild(container);
@@ -109,34 +88,18 @@ function createSearchAll(element) {
         createLargePage(element)
     })
 }
-  
-
-function deleteCurrentDisplay() {
-    let searchResults = document.getElementById("main")
-    if(searchResults) {
-        searchResults.remove()
-    }
-    else {
-        return
-    }
-}
-
-function showHome() {
-    document.getElementById("trackerDiv").style.display = "flex"
-    document.getElementById("searchContainer").style.display = "flex"
-}
 
 function createLargePage(element) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
-    container.setAttribute("class", "divBackground");
+    container.setAttribute("class", "singePage");
   
     let deleteBtn = document.createElement('button');
     deleteBtn.id = 'deleteBTN'
-    deleteBtn.classList = 'BTN'
+    deleteBtn.classList = 'deleteBTN'
     let deleteImg = document.createElement('img')
     deleteImg.src = "./images/trash.png" 
-    deleteImg.classList = 'Img'
+    deleteImg.classList = 'deleteImg'
     deleteImg.id = 'deleteImg'
 
 
@@ -156,29 +119,33 @@ function createLargePage(element) {
     petImage.classList = 'singePetImage';
 
     let textDiv = document.createElement("div");
-    textDiv.setAttribute("id", "textHolder");
+    textDiv.setAttribute("class", "singleTextHolder");
   
     let title = document.createElement("div");
-    title.setAttribute("class", "title");
+    title.setAttribute("class", "singeTitle");
     title.textContent += `${element.name}`;
   
     let demographics = document.createElement("div");
-    demographics.setAttribute("class", "demographics");
+    demographics.setAttribute("class", "singleDemographics");
     demographics.textContent = `${element.gender} | ${element.age} | ${element.size}`
 
     let location = document.createElement("div");
-    location.setAttribute("class", "location");
+    location.setAttribute("class", "singleLocation");
     location.textContent = `${element.location}`
 
     let about = document.createElement("div");
-    about.setAttribute("class", "about");
+    about.setAttribute("class", "singleAbout");
     about.textContent = `${element.about}`;
 
-  
+    let imageDiv = document.createElement('div')
+    imageDiv.setAttribute('class', "singlePgImage")
+
+
+    container.appendChild(imageDiv);
     container.appendChild(textDiv);
-    textDiv.appendChild(deleteBtn)
-    textDiv.appendChild(editBtn)
-    textDiv.appendChild(petImage)
+    imageDiv.appendChild(deleteBtn)
+    imageDiv.appendChild(editBtn)
+    imageDiv.appendChild(petImage)
     textDiv.appendChild(title);
     textDiv.appendChild(location);
     textDiv.appendChild(demographics);
@@ -203,7 +170,8 @@ function createPostContainer(){
     container.setAttribute("id", `postContainer`);
 
     let h3 = document.createElement('h3')
-    h3.textContent = 'Please fill in the information to the best of your ability.'
+    h3.id = 'inputTitle'
+    h3.textContent = 'Abandon Dog'
     let form = document.createElement('form')
     form.id = 'postForm'
     //set attribute
@@ -233,12 +201,13 @@ function createPostContainer(){
     let imageInput = document.createElement('input');
     imageInput.type = 'file'
     imageInput.id = 'image_file';
-    imageInput.classList = 'image_input'
+    imageInput.className = 'image_input'
 
     let button = document.createElement('button')
     button.type = 'submit'
     button.id = 'submitBtn'
-    button.textContent = 'Add'
+    button.className = 'formSubmitBtn'
+    button.textContent = 'Submit Dog'
 
     form.appendChild(name);
     form.appendChild(breed);
@@ -269,56 +238,6 @@ function createPostContainer(){
 
         postRequest(formData)
     })
-}
-
-//name, breed, size, gender, age, about, location
-//INSERT INTO pets (name, breed, size, gender, age, about, location) VALUES ('Earl', 'Basset Hound', 'Medium', 'Male', '2 Years', 'Fun loving basset hound who loves to sleep all day.', 'Virginia Beach, VA');
-
-async function postRequest (formData) {
-    try {
-        const response = await fetch(`http://localhost:8000/pets`, {
-            method: 'POST',
-            body: formData
-        }) 
-    const jsonData = await response.json()
-    resetScreen(jsonData)
-    }
-    catch(err){
-        console.log(err)
-    }
-}
-
-
-function resetScreen(boolean) {
-    if(boolean){
-        alert('Success!')
-        deleteCurrentDisplay()
-        showHome()
-    }
-    else {
-        alert('Error during additon. Please try again.')
-    }
-}
-
-async function deleteRequest(id) {
-    try {
-        console.log(id)
-        const response = await fetch(`http://localhost:8000/pets/${id}`, {
-            method: 'DELETE',
-            headers: {
-                "Content-type": "application/json"
-            }
-        }) 
-    const jsonData = await response.json()
-    console.log(jsonData)
-    changeDisplay()
-    deleteCurrentDisplay()
-    createMainContainer()
-    getAllRequest()
-    }
-    catch(err){
-        console.log(err)
-    }
 }
 
 function createPutData (element){
@@ -359,10 +278,16 @@ function createPutData (element){
     location.className = 'input'
     location.value = element.location
 
+    let imageInput = document.createElement('input');
+    imageInput.type = 'file'
+    imageInput.id = 'image_file';
+    imageInput.className = 'image_input'
+
     let button = document.createElement('button')
     button.type = 'submit'
     button.id = 'submitBtn'
-    button.textContent = 'Add'
+    button.className = 'formSubmitBtn'
+    button.textContent = 'Submit Dog'
 
     form.appendChild(name);
     form.appendChild(breed);
@@ -371,6 +296,7 @@ function createPutData (element){
     form.appendChild(size);
     form.appendChild(location);
     form.appendChild(about);
+    form.append(imageInput);
     form.append(button)
     
     container.appendChild(h3);
@@ -379,36 +305,136 @@ function createPutData (element){
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        let data = {
-            name: name.value,
-            breed: breed.value, 
-            size: size.value, 
-            gender: gender.value, 
-            age: age.value, 
-            about: about.value, 
-            location: location.value
-        }
-       putRequest(data, element.pet_id)
+        let formData = new FormData(form);
+        formData.append('name', name.value);
+        formData.append('breed', breed.value);
+        formData.append('size', size.value);
+        formData.append('gender', gender.value);
+        formData.append('age', age.value);
+        formData.append('about', about.value);
+        formData.append('location', location.value);
+        formData.append('image', imageInput.files[0])
+        putRequest(formData, element.pet_id)
 })
 }
 
 
-async function putRequest(data, id){
+///////Routes/////////
+
+async function postRequest (formData) {
     try {
+        const response = await fetch(`http://localhost:8000/pets`, {
+            method: 'POST',
+            body: formData
+        }) 
+    const jsonData = await response.json()
+    resetScreen(jsonData)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+async function deleteRequest(id) {
+    try {
+        console.log(id)
         const response = await fetch(`http://localhost:8000/pets/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify(data),
+            method: 'DELETE',
             headers: {
                 "Content-type": "application/json"
             }
-
         }) 
     const jsonData = await response.json()
+    console.log(jsonData)
+    changeDisplay()
     deleteCurrentDisplay()
     createMainContainer()
     getAllRequest()
     }
     catch(err){
         console.log(err)
+    }
+}
+
+async function getAllRequest () {
+    try {
+        const response = await fetch(`http://localhost:8000/pets`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    const jsonData = await response.json()
+   jsonData.forEach(element => {
+        createSearchAll(element)
+    });
+    }
+    catch(err){
+        console.log(err)
+    }
+    }
+
+async function getOneRequest (searchValue) {
+    try {
+        const response = await fetch(`http://localhost:8000/pets/${searchValue}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    const jsonData = await response.json()
+    jsonData.forEach(element => {
+        createSearchAll(element)
+    });
+    }
+    catch(err){
+        console.log(err)
+    }
+    } 
+
+async function putRequest(formData, id){
+    try {
+        const response = await fetch(`http://localhost:8000/pets/${id}`, {
+            method: 'PUT',
+            body: formData,
+        }) 
+
+        const jsonData = await response.json()
+        alert('Success')
+        deleteCurrentDisplay()
+        showHome()
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+////////Screen changes///////////
+function resetScreen(boolean) {
+    if(boolean){
+        alert('Success!')
+        deleteCurrentDisplay()
+        showHome()
+    }
+    else {
+        alert('Error during additon. Please try again.')
+    }
+}
+
+function changeDisplay() {
+    document.getElementById("mainHome").style.display = "none"
+}
+
+function showHome() {
+    document.getElementById("mainHome").style.display = "block"
+}
+
+function deleteCurrentDisplay() {
+    let searchResults = document.getElementById("main")
+    if(searchResults) {
+        searchResults.remove()
+    }
+    else {
+        return
     }
 }
