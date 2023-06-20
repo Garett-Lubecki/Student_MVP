@@ -22,7 +22,8 @@ document.querySelector('#homeBTN').addEventListener('click', (e) => {
 document.querySelector('#showPost').addEventListener('click', (e) => {
     changeDisplay()
     deleteCurrentDisplay()
-    createMainContainer()
+    // createMainContainer()
+    createsinglePgMainContainer()
     createPostContainer()
 })
 
@@ -253,7 +254,7 @@ function createPostContainer(){
     
     container.appendChild(h3);
     container.appendChild(form);
-    document.getElementById("main").appendChild(container);
+    document.getElementById("singePgmain").appendChild(container);
 
     form.addEventListener('submit', (e) => {
         //prevents page from reflecting
