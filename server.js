@@ -60,7 +60,7 @@ app
                 const image = req.files.image;
                 const imageFileName = Date.now() + '_' + image.name;
                 console.log(__dirname)
-                image.mv(path.join(__dirname, 'public/images', imageFileName));
+                image.mv(path.join(__dirname, '/public/images', imageFileName));
                 console.log(imageFileName)
             }
             const result = await pool.query(
@@ -70,7 +70,7 @@ app
         }
         catch(err) {
             console.log(err) 
-            res.status(500).send('Error during post.')
+            res.status(500).send(__dirname, image_path)
         }
         
     })
@@ -101,7 +101,7 @@ app
         }
         catch(err) {
             console.log(err.message) 
-            res.status(404).send(__dirname, image_path)
+            res.status(404).send('Error during update.')
         }
     })
 
