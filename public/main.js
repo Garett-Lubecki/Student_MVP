@@ -410,6 +410,7 @@ async function getOneRequest (searchValue) {
             }
         })
     const jsonData = await response.json()
+    console.log(jsonData)
     jsonData.forEach(element => {
         createSearchAll(element)
     });
