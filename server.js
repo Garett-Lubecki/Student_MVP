@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 //imports fileupload
 const fileUpload = require('express-fileupload');
-//Imports obdy parser
+//Imports body parser
 const bodyParser = require('body-parser');
 //Imports path
 const path = require('path')
@@ -37,16 +37,12 @@ app.use(cors({
     origin: "*", 
 }))
 
-
 //Allows me to read if there are any files in my routes
 //Allows access to req.files
 app.use(fileUpload())
 
 //Parses the JSON data passed through
 app.use(bodyParser.json());
-
-//Double Check this
-// app.use(bodyParser.urlencoded({ extended: true }));
 
 app
     .get("/pets", async (req, res) => {
@@ -70,7 +66,7 @@ app
         }
         catch(err) {
             console.log(err.message) 
-            res.status(404).send('No pets at that location.')
+            res.status(500).send('Server Error.')
         }
     })
     .post("/pets", async (req, res) => {
@@ -78,11 +74,15 @@ app
             const { name, breed, size, gender, age, about, location } = req.body;
             let imageFileName;
             if(!req.files){
+                //If there is no image attached, give the no image, image
                 imageFileName = 'noimage.png'
             }
             else{
+                //Access image obj
                 const image = req.files.image;
+                //assign unique name
                 imageFileName = Date.now() + '_' + image.name;
+                //Move the image to the public/images folder via the fileupload import (.mv is apat of express-fileupload)
                 image.mv(path.join(__dirname, '/public/images', imageFileName));
                 console.log(`File Name ${imageFileName}`)
             }
@@ -106,10 +106,14 @@ app
             let imageFileName = null
             let correctImage;
             if(req.files){
+                //Access image obj if the files exist
                 const image = req.files.image;
+                //Assigne unique name
                 imageFileName = Date.now() + '_' + image.name;
+                //move image
                 image.mv(path.join(__dirname, '/public/images', imageFileName));
             }
+            //This is for solving issue with upload images or not if there were previously there for the put
             if(imageFileName) {
                 correctImage = `${imageFileName}`
             }
@@ -120,6 +124,7 @@ app
                 correctImage = 'noimage.png'
             }
 
+            //create updated pet
             let updatedPet = {
                 name: name || currentPet.name,
                 breed: breed || currentPet.breed,
