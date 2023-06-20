@@ -488,9 +488,10 @@ input[type='file'] {
 
 #glub{
     width: 30vw;
+    color: rgb(119, 118, 118);
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
     position: relative;
-    border-top: 3px solid black;
+    border-top: 3px solid rgb(119, 118, 118);
 }
