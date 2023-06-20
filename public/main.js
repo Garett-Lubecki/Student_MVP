@@ -323,7 +323,7 @@ function createPutData (element){
 
 async function postRequest (formData) {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+        const response = await fetch(`http://pets-8gj1.onrender.com/pets`, {
             method: 'POST',
             body: formData
         }) 
@@ -338,7 +338,7 @@ async function postRequest (formData) {
 async function deleteRequest(id) {
     try {
         console.log(id)
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets/${id}`, {
+        const response = await fetch(`http://pets-8gj1.onrender.com/pets/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-type": "application/json"
@@ -358,7 +358,7 @@ async function deleteRequest(id) {
 
 async function getAllRequest () {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+        const response = await fetch(`http://pets-8gj1.onrender.com/pets`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -376,7 +376,7 @@ async function getAllRequest () {
 
 async function getOneRequest (searchValue) {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets/${searchValue}`, {
+        const response = await fetch(`http://pets-8gj1.onrender.com/pets/${searchValue}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -394,7 +394,7 @@ async function getOneRequest (searchValue) {
 
 async function putRequest(formData, id){
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets/${id}`, {
+        const response = await fetch(`http://pets-8gj1.onrender.com/pets/${id}`, {
             method: 'PUT',
             body: formData,
         }) 
