@@ -1,11 +1,15 @@
 ///////Student MVP ---Garett Lubecki///////
 
-/////Event Listeners
-document.querySelector('#searchBTN').addEventListener('click', (e) => {
-    let searchValue = document.getElementById("searchTXT").value;
-    getOneRequest(searchValue)
-})
+/////Event Listeners///////////////
 
+
+// document.querySelector('#searchBTN').addEventListener('click', (e) => {
+//     let searchValue = document.getElementById("searchTXT").value;
+//     getOneRequest(searchValue)
+// })
+
+
+//Show all currently in the database 
 document.querySelector('#showAll').addEventListener('click', (e) => {
     changeDisplay()
     deleteCurrentDisplay()
@@ -13,11 +17,15 @@ document.querySelector('#showAll').addEventListener('click', (e) => {
     getAllRequest()
 })
 
+
+//Go to home page
 document.querySelector('#homeBTN').addEventListener('click', (e) => {
     deleteCurrentDisplay()
     showHome()
 })
 
+
+//Go to post page
 document.querySelector('#showPost').addEventListener('click', (e) => {
     changeDisplay()
     deleteCurrentDisplay()
@@ -25,19 +33,22 @@ document.querySelector('#showPost').addEventListener('click', (e) => {
     createPostContainer()
 })
 
+//Search One/Multiple in Search Bar
 document.querySelector('#searchBTN').addEventListener('click', () => {
     let searchValue = document.querySelector('#searchTXT').value
     document.querySelector('#searchTXT').value = " "
     changeDisplay()
     deleteCurrentDisplay()
     createMainContainer()
-    getOneRequest()
+    getOneRequest(searchValue)
 
 })
 
 
 ///////Creation of Containers base off of data/////////
 
+
+//Create Main containers for search one/all
 function createMainContainer() {
     let main = document.createElement("div");
     main.setAttribute("id", "main");
@@ -51,21 +62,17 @@ function createMainContainer() {
     document.querySelector("body").appendChild(main);
   }
 
-  function createsinglePgMainContainer() {
-    let main = document.createElement("div");
-    main.setAttribute("id", "singePgmain");
-    main.style.display = "flex";
-    document.querySelector("body").appendChild(main);
-  }
 
 
+//Create pet boxes
 function createSearchAll(element) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
     container.setAttribute("class", "divBackground");
 
-    ///important change url here
+    /////important change url here/////
     let petImage = document.createElement('img');
+    //Change SRC to local host if operating in local environment
     petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
     petImage.classList = 'petImages';
 
@@ -98,6 +105,15 @@ function createSearchAll(element) {
     })
 }
 
+//Create Main container for the show a single pet
+function createsinglePgMainContainer() {
+    let main = document.createElement("div");
+    main.setAttribute("id", "singePgmain");
+    main.style.display = "flex";
+    document.querySelector("body").appendChild(main);
+}
+
+//Create Information in Large Page
 function createLargePage(element) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
@@ -111,7 +127,6 @@ function createLargePage(element) {
     deleteImg.classList = 'largePgEditDeleteImg'
     deleteImg.id = 'deleteImg'
 
-
     let editBtn = document.createElement('button');
     editBtn.id = 'editBTN'
     editBtn.classList = 'deleteBTN'
@@ -123,7 +138,9 @@ function createLargePage(element) {
     deleteBtn.appendChild(deleteImg)
     editBtn.appendChild(editImg)
 
+    //////import change url here/////
     let petImage = document.createElement('img');
+    //Change SRC to local host if operating in local environment
     petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
     petImage.classList = 'singePetImage';
 
@@ -179,7 +196,6 @@ function createLargePage(element) {
 
     deleteBtn.addEventListener('click', () => {
         deleteRequest(element.pet_id)
-
     })
 
     editBtn.addEventListener('click', () => {
@@ -190,6 +206,7 @@ function createLargePage(element) {
     })
 }
 
+//Create post container and form
 function createPostContainer(){
     let container = document.createElement("div");
     container.setAttribute("id", `postContainer`);
@@ -233,7 +250,7 @@ function createPostContainer(){
     button.id = 'submitBtn'
     button.className = 'formSubmitBtn'
     button.textContent = 'Submit Dog'
-
+ 
     form.appendChild(name);
     form.appendChild(breed);
     form.appendChild(age);
@@ -249,8 +266,10 @@ function createPostContainer(){
     document.getElementById("main").appendChild(container);
 
     form.addEventListener('submit', (e) => {
+        //prevents page from reflecting
         e.preventDefault()
-
+        //creating a new Form and appending the information like an object/ array of arrays
+        //Forms allow you to bundle data in forms
         let formData = new FormData(form);
         formData.append('name', name.value);
         formData.append('breed', breed.value);
@@ -260,11 +279,13 @@ function createPostContainer(){
         formData.append('about', about.value);
         formData.append('location', location.value);
         formData.append('image', imageInput.files[0])
-
+        //sending the form to the post request
         postRequest(formData)
     })
 }
 
+
+//Create put container
 function createPutData (element){
     let container = document.createElement("div");
     container.setAttribute("id", `postContainer`);
@@ -329,8 +350,12 @@ function createPutData (element){
     document.getElementById("main").appendChild(container);
 
     form.addEventListener('submit', (e) => {
+        //Prevents the page from refreshing upon submit
         e.preventDefault()
+        //creating a new Form and appending the information like an object/ array of arrays
+        //Forms allow you to bundle data in forms
         let formData = new FormData(form);
+
         formData.append('name', name.value);
         formData.append('breed', breed.value);
         formData.append('size', size.value);
@@ -338,9 +363,11 @@ function createPutData (element){
         formData.append('age', age.value);
         formData.append('about', about.value);
         formData.append('location', location.value);
-        formData.append('image', imageInput.files[0])
-        putRequest(formData, element.pet_id)
-})
+        formData.append('image', imageInput.files[0]);
+
+        //Send data to put route
+        putRequest(formData, element.pet_id);
+    })
 }
 
 

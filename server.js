@@ -1,26 +1,51 @@
+//import express
 const express = require('express');
+//import pool
 const { Pool } = require('pg');
+//import dotenv
 const dotenv = require('dotenv');
+//import cors
 const cors = require('cors');
+//imports fileupload
 const fileUpload = require('express-fileupload');
+//Imports obdy parser
 const bodyParser = require('body-parser');
+//Imports path
 const path = require('path')
 
-
+//Confingures Database
 dotenv.config();
 
+//Creates new pool instance
 const pool = new Pool ({
     connectionString: process.env.DATABASE_URL
 })
+
+//Allows access to express properties and methods
 const app = express();
 
+//Allows me to access images when going to a url/images/filename.jpeg
+//It tells it to look at my public folder for another folder called images
+//Connected to my SRC valeus in the main.js
 app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+
+//So the client can access my stuff
 app.use(express.static('public'))
+
+//Allows all CORS routes to pass
 app.use(cors({
     origin: "*", 
 }))
+
+
+//Allows me to read if there are any files in my routes
+//Allows access to req.files
 app.use(fileUpload())
+
+//Parses the JSON data passed through
 app.use(bodyParser.json());
+
+//Double Check this
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app

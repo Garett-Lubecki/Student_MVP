@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS petimages;
 DROP TABLE IF EXISTS pets;
 
 CREATE TABLE pets (
