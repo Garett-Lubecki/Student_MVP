@@ -26,7 +26,7 @@ const app = express();
 
 //Allows me to access images when going to a url/images/filename.jpeg
 //It tells it to look at my public folder for another folder called images
-//Connected to my SRC valeus in the main.js
+//Connected to my SRC values in the main.js
 app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 //So the client can access my stuff

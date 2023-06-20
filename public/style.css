@@ -476,3 +476,21 @@ input[type='file'] {
     font-weight: bold;
     padding-bottom: 10px;
 }
+
+#footer{
+    width: 95vw;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin-left: 3.5rem;
+    margin-top: 2rem;
+}
+
+#glub{
+    width: 30vw;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    border-top: 3px solid black;
+}

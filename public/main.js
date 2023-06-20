@@ -2,13 +2,6 @@
 
 /////Event Listeners///////////////
 
-
-// document.querySelector('#searchBTN').addEventListener('click', (e) => {
-//     let searchValue = document.getElementById("searchTXT").value;
-//     getOneRequest(searchValue)
-// })
-
-
 //Show all currently in the database 
 document.querySelector('#showAll').addEventListener('click', (e) => {
     changeDisplay()
@@ -61,8 +54,6 @@ function createMainContainer() {
     main.style.flexWrap = "wrap";
     document.querySelector("body").appendChild(main);
   }
-
-
 
 //Create pet boxes
 function createSearchAll(element) {
@@ -216,7 +207,6 @@ function createPostContainer(){
     h3.textContent = 'Abandon Dog'
     let form = document.createElement('form')
     form.id = 'postForm'
-    //set attribute
 
     let name = document.createElement('input')  
     name.placeholder = 'Name'
@@ -283,7 +273,6 @@ function createPostContainer(){
         postRequest(formData)
     })
 }
-
 
 //Create put container
 function createPutData (element){
@@ -370,7 +359,6 @@ function createPutData (element){
     })
 }
 
-
 ///////Routes/////////
 
 async function postRequest (formData) {
@@ -426,7 +414,7 @@ async function getAllRequest () {
     catch(err){
         console.log(err)
     }
-    }
+}
 
 async function getOneRequest (searchValue) {
     try {
@@ -445,7 +433,7 @@ async function getOneRequest (searchValue) {
     catch(err){
         console.log(err)
     }
-    } 
+} 
 
 async function putRequest(formData, id){
     try {
