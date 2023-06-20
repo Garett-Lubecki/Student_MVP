@@ -11,7 +11,7 @@ body {
 /* Navigation Bar */
 #navBar {
     display: flex;
-    height: 20%;    
+    height: 15%;    
     width: 100%;
     min-width: 50%;
     padding: 20px;
@@ -324,17 +324,19 @@ input[type='file'] {
     margin: 1rem;
 }
 
-/* #main :hover div {
-    transform: scale(.9);
+#main :hover {
+    box-shadow: 15px 15px 15px rgba(0.15, 0.15, 0.15, 0.15);
     transition: 1s;
     cursor: pointer;
-} */
+}
 
 .petImages{
     height: 32rem;
     width: 32rem;
     object-fit: cover;
     border-radius: 10px;
+    pointer-events: none;
+    cursor: pointer;
 }
 
 .textHolder {
