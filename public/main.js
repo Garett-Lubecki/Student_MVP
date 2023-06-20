@@ -51,6 +51,14 @@ function createMainContainer() {
     document.querySelector("body").appendChild(main);
   }
 
+  function createsinglePgMainContainer() {
+    let main = document.createElement("div");
+    main.setAttribute("id", "singePgmain");
+    main.style.display = "flex";
+    document.querySelector("body").appendChild(main);
+  }
+
+
 function createSearchAll(element) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
@@ -82,9 +90,10 @@ function createSearchAll(element) {
     textDiv.appendChild(about);
     document.getElementById("main").appendChild(container);
 
+    //Create single page here 
     document.getElementById(`${element.name}`).addEventListener('click', (e) => {
         deleteCurrentDisplay()
-        createMainContainer()
+        createsinglePgMainContainer()
         createLargePage(element)
     })
 }
@@ -99,23 +108,23 @@ function createLargePage(element) {
     deleteBtn.classList = 'deleteBTN'
     let deleteImg = document.createElement('img')
     deleteImg.src = "./images/trash.png" 
-    deleteImg.classList = 'deleteImg'
+    deleteImg.classList = 'largePgEditDeleteImg'
     deleteImg.id = 'deleteImg'
 
 
     let editBtn = document.createElement('button');
     editBtn.id = 'editBTN'
-    editBtn.classList = 'BTN'
+    editBtn.classList = 'deleteBTN'
     let editImg = document.createElement('img')
     editImg.src = "./images/edit.png" 
-    editImg.classList = 'Img'
+    editImg.classList = 'largePgEditDeleteImg'
     editImg.id = 'editImg'
 
     deleteBtn.appendChild(deleteImg)
     editBtn.appendChild(editImg)
 
     let petImage = document.createElement('img');
-    petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
+    petImage.setAttribute('src', `http://localhost:8000/images/${element.image_path}`);
     petImage.classList = 'singePetImage';
 
     let textDiv = document.createElement("div");
@@ -133,24 +142,40 @@ function createLargePage(element) {
     location.setAttribute("class", "singleLocation");
     location.textContent = `${element.location}`
 
+    let imageDiv = document.createElement('div')
+    imageDiv.setAttribute('class', "singlePgImage")
+
+    let titlelocdemDiv = document.createElement('div')
+    titlelocdemDiv.setAttribute('class', "titlelocdemDiv")
+
+    let aboutDiv = document.createElement('div')
+    aboutDiv.setAttribute('class', "aboutDiv")
+
+    let aboutTitle = document.createElement('div')
+    aboutTitle.className = 'aboutTitle'
+    aboutTitle.textContent = 'About:'
+    
     let about = document.createElement("div");
     about.setAttribute("class", "singleAbout");
     about.textContent = `${element.about}`;
 
-    let imageDiv = document.createElement('div')
-    imageDiv.setAttribute('class', "singlePgImage")
-
-
     container.appendChild(imageDiv);
     container.appendChild(textDiv);
-    imageDiv.appendChild(deleteBtn)
-    imageDiv.appendChild(editBtn)
-    imageDiv.appendChild(petImage)
-    textDiv.appendChild(title);
-    textDiv.appendChild(location);
-    textDiv.appendChild(demographics);
-    textDiv.appendChild(about);
-    document.getElementById("main").appendChild(container);
+
+    imageDiv.appendChild(deleteBtn);
+    imageDiv.appendChild(editBtn);
+    imageDiv.appendChild(petImage);
+
+    textDiv.appendChild(titlelocdemDiv);
+    textDiv.appendChild(aboutDiv);
+
+    titlelocdemDiv.appendChild(title);
+    titlelocdemDiv.appendChild(location);
+    titlelocdemDiv.appendChild(demographics);
+
+    aboutDiv.appendChild(aboutTitle);
+    aboutDiv.appendChild(about);
+    document.getElementById("singePgmain").appendChild(container);
 
     deleteBtn.addEventListener('click', () => {
         deleteRequest(element.pet_id)
@@ -324,6 +349,8 @@ function createPutData (element){
 async function postRequest (formData) {
     try {
         const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+            //https://pets-8gj1.onrender.com/pets
+            //http://localhost:8000/pets
             method: 'POST',
             body: formData
         }) 
@@ -430,9 +457,13 @@ function showHome() {
 }
 
 function deleteCurrentDisplay() {
-    let searchResults = document.getElementById("main")
-    if(searchResults) {
-        searchResults.remove()
+    let searchResults1 = document.getElementById("main")
+    let searchResults2 = document.getElementById('singePgmain')
+    if(searchResults1) {
+        searchResults1.remove()
+    }
+    else if (searchResults2){
+        searchResults2.remove()
     }
     else {
         return

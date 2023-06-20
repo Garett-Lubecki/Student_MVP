@@ -38,7 +38,6 @@ app
 
     .get("/pets/:id", async (req, res) => {
         try {
-            //work on getting type to work
             let { id } = req.params
             let result = await pool.query(
                 'SELECT * FROM pets WHERE breed = $1', [id.toLocaleLowerCase()])
@@ -46,7 +45,6 @@ app
         }
         catch(err) {
             console.log(err.message) 
-            //look at rephrasing the message for the error code
             res.status(404).send('No pets at that location.')
         }
     })
@@ -78,11 +76,25 @@ app
         try{
             let { id } = req.params;
             const { name, breed, size, gender, age, about, location } = req.body;
-            const image = req.files.image;
-            const imageFileName = Date.now() + '_' + image.name;
-
             let result = await pool.query('SELECT * FROM pets WHERE pet_id = $1', [id])
             let currentPet = result.rows[0]
+            let imageFileName = null
+            let correctImage;
+            if(req.files){
+                const image = req.files.image;
+                imageFileName = Date.now() + '_' + image.name;
+                image.mv(path.join(__dirname, '/public/images', imageFileName));
+            }
+            if(imageFileName) {
+                correctImage = `${imageFileName}`
+            }
+            else if (currentPet.image_path){
+                correctImage = currentPet.image_path
+            }
+            else{
+                correctImage = 'noimage.png'
+            }
+
             let updatedPet = {
                 name: name || currentPet.name,
                 breed: breed || currentPet.breed,
@@ -91,10 +103,9 @@ app
                 age: age || currentPet.age,
                 about: about || currentPet.about,
                 location: location || currentPet.location,
-                image_path: `${imageFileName}` || currentPet.image_path
+                image_path: correctImage
             }
-            //removed public
-            image.mv(path.join(__dirname, '/images', updatedPet.image_path));
+            
             let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7, image_path = $8 WHERE pet_id = $9', [updatedPet.name, updatedPet.breed.toLocaleLowerCase(), updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, updatedPet.image_path, id])
            
             res.status(200).send(updatedPet)

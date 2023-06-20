@@ -324,11 +324,11 @@ input[type='file'] {
     margin: 1rem;
 }
 
-#main :hover div {
+/* #main :hover div {
     transform: scale(.9);
     transition: 1s;
     cursor: pointer;
-}
+} */
 
 .petImages{
     height: 32rem;
@@ -359,21 +359,118 @@ input[type='file'] {
 
 
 /* Single Showing Page */
+#singePgmain{
+    height: 70vh;
+    width: 95vw;
+    margin-left: 2.5vw;
+    margin-top: 2.5vh;
+}
+
+
 .deleteBTN {
     height: 70px;
     width: 70px;
     border: none;
     border-radius: 50%;
-    background-color: rgba(204, 198, 198, .2);
+    background-color: #f5f5f5;
+    position: relative;
+    cursor: pointer;
+    margin-left: 10px;
 }
-.deleteImg {
+
+.deleteBTN :hover{
+    background-color: black;
+    cursor: pointer;
+}
+.largePgEditDeleteImg {
     height: 50px;
     width: 50px; 
+    position: relative;
+    cursor: pointer;
+}
+
+.deleteBTN :hover{
+    background-color: #f5f5f5;
+    cursor: pointer;
 }
 
 .singePetImage{
-    height: 40rem;
+    height: 80%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: black;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
+.singlePgImage{
+    background-color: black;
+    height: 50%;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-radius: 10px;
+}
+
+.singePage{
+    height: 150vh;
+    width: 95vw;
+}
+
+.singleTextHolder{
+    height: 50%;
+
+}
+
+.singeTitle{
+    font-size: 4rem;
+    color: rgba(139, 92, 186, 0.78);
+    font-family: 'OrangeBlossoms', sans-serif;
+    font-weight: bold;
+}
+.singleLocation{
+    font-size: 2rem;
+    color: rgb(119, 118, 118);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.singleDemographics{
+    font-size: 1.5rem;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+
+.singleAbout{
+    font-size: 1.5rem;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.titlelocdemDiv {
+    background-color: #f5f5f5;
+    margin-top: 2.5vh;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0.15, 0.15, 0.15, 0.15);
+    text-align: center;
+}
+
+.aboutDiv{
+    background-color: #f5f5f5;
+    margin-top: .5vh;
+    padding: 10px;
+    height: 50%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0.15, 0.15, 0.15, 0.15);
+}
+
+.aboutTitle{
+    font-size: 2.5rem;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
