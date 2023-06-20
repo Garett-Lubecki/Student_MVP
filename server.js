@@ -53,15 +53,16 @@ app
     .post("/pets", async (req, res) => {
         try {
             const { name, breed, size, gender, age, about, location } = req.body;
+            let imageFileName;
             if(!req.files){
                 imageFileName = 'noimage.png'
             }
             else{
                 const image = req.files.image;
-                const imageFileName = Date.now() + '_' + image.name;
+                imageFileName = Date.now() + '_' + image.name;
                 console.log(__dirname)
                 let newPath = path.join(__dirname, '../public/images', imageFileName)
-                console.log(path)
+                console.log(__filename)
                 image.mv(path.join(__dirname, '../public/images', imageFileName));
                 console.log(`File Name ${imageFileName}`)
             }
