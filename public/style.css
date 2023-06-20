@@ -329,9 +329,7 @@ input[type='file'] {
     transition: 1s;
     cursor: pointer;
 }
-.divBackground :hover .petImages{
 
-}
 .petImages{
     height: 32rem;
     width: 32rem;
