@@ -60,7 +60,7 @@ app
                 const image = req.files.image;
                 const imageFileName = Date.now() + '_' + image.name;
                 console.log(__dirname)
-                image.mv(path.join(__dirname, '/images', imageFileName));
+                image.mv(path.join(__dirname, 'images', imageFileName));
                 console.log(imageFileName)
             }
             const result = await pool.query(
@@ -70,7 +70,7 @@ app
         }
         catch(err) {
             console.log(err) 
-            res.status(500).send(`This is the error: ${__dirname}, ${image_path}`)
+            res.status(500).send(`Server Error`)
         }
         
     })
