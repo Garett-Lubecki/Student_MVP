@@ -60,8 +60,10 @@ app
                 const image = req.files.image;
                 const imageFileName = Date.now() + '_' + image.name;
                 console.log(__dirname)
+                let newPath = path.join(__dirname, '../public/images', imageFileName)
+                console.log(path)
                 image.mv(path.join(__dirname, '../public/images', imageFileName));
-                console.log(imageFileName)
+                console.log(`File Name ${imageFileName}`)
             }
             const result = await pool.query(
               'INSERT INTO pets (name, breed, size, gender, age, about, location, image_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
