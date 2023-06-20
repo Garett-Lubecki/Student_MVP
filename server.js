@@ -46,7 +46,7 @@ app.use(fileUpload())
 app.use(bodyParser.json());
 
 //Double Check this
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 app
     .get("/pets", async (req, res) => {
