@@ -76,7 +76,7 @@ body {
     top: 0;
     left: 0;
     flex-direction: column;
-    height: 70vh;
+    height: 75vh;
     width: 100vh;
 }
 
@@ -478,7 +478,11 @@ input[type='file'] {
 }
 
 #footer{
+    position: absolute;
+    bottom: 0;
     width: 95vw;
+    height: 3rem;
+    margin-top: 20rem;
     display: flex;
     align-content: center;
     justify-content: center;
