@@ -124,7 +124,7 @@ function createLargePage(element) {
     editBtn.appendChild(editImg)
 
     let petImage = document.createElement('img');
-    petImage.setAttribute('src', `http://localhost:8000/images/${element.image_path}`);
+    petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
     petImage.classList = 'singePetImage';
 
     let textDiv = document.createElement("div");
