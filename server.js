@@ -70,7 +70,7 @@ app
         }
         catch(err) {
             console.log(err) 
-            res.status(404).send('Error during post.')
+            res.status(500).send('Error during post.')
         }
         
     })
