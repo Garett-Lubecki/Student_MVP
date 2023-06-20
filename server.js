@@ -93,14 +93,15 @@ app
                 location: location || currentPet.location,
                 image_path: `${imageFileName}` || currentPet.image_path
             }
-            image.mv(path.join(__dirname, 'public/images', updatedPet.image_path));
+            //removed public
+            image.mv(path.join(__dirname, '/images', updatedPet.image_path));
             let newResult = await pool.query('UPDATE pets set name = $1, breed = $2, size = $3, gender = $4, age = $5, about = $6, location = $7, image_path = $8 WHERE pet_id = $9', [updatedPet.name, updatedPet.breed.toLocaleLowerCase(), updatedPet.size, updatedPet.gender, updatedPet.age, updatedPet.about, updatedPet.location, updatedPet.image_path, id])
            
             res.status(200).send(updatedPet)
         }
         catch(err) {
             console.log(err.message) 
-            res.status(404).send('Error during update.')
+            res.status(404).send(__dirname, image_path)
         }
     })
 
