@@ -60,10 +60,7 @@ app
             else{
                 const image = req.files.image;
                 imageFileName = Date.now() + '_' + image.name;
-                console.log(__dirname)
-                let newPath = path.join(__dirname, '../public/images', imageFileName)
-                console.log(__filename)
-                image.mv(path.join(__dirname, '../public/images', imageFileName));
+                image.mv(path.join(__dirname, '/public/images', imageFileName));
                 console.log(`File Name ${imageFileName}`)
             }
             const result = await pool.query(
