@@ -306,12 +306,12 @@ input[type='file'] {
 
 #main {
     background-color: white;
-    padding: none;
-    height: 80vh;
-    min-height: 80vh;
-    max-height: fit-content;
+    padding-bottom: 30px;
+    min-height: 75vh;
+    max-height: 120vh;
     width: 100%;
     margin: 20px;
+    overflow: auto
 }
 
 .divBackground{
