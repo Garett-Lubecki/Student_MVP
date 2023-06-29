@@ -42,7 +42,7 @@ DATABASE_URL=your-database-url
 
 'npm run server'
 
-6. Open your web browser and visit `http://localhost:8000` to access the Petfinder SPA or with live serer.
+6. Open your web browser and visit `http://localhost:8000` to access the Petfinder SPA or with live serer. Once on page, please zoom your page out to 75%.
 
 ## Usage
 
