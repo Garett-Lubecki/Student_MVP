@@ -1,5 +1,8 @@
 ///////Student MVP ---Garett Lubecki///////
 
+const url = 'http://localhost:8000/'
+//If running on render https://pets-8gj1.onrender.com/
+
 /////Event Listeners///////////////
 
 //Show all currently in the database 
@@ -7,7 +10,7 @@ document.querySelector('#showAll').addEventListener('click', (e) => {
     changeDisplay()
     deleteCurrentDisplay()
     createMainContainer()
-    getAllRequest()
+    getAllRequest(url)
 })
 
 
@@ -22,7 +25,6 @@ document.querySelector('#homeBTN').addEventListener('click', (e) => {
 document.querySelector('#showPost').addEventListener('click', (e) => {
     changeDisplay()
     deleteCurrentDisplay()
-    // createMainContainer()
     createsinglePgMainContainer()
     createPostContainer()
 })
@@ -39,10 +41,12 @@ document.querySelector('#searchBTN').addEventListener('click', () => {
 })
 
 
+
 ///////Creation of Containers base off of data/////////
 
 
 //Create Main containers for search one/all
+
 function createMainContainer() {
     let main = document.createElement("div");
     main.setAttribute("id", "main");
@@ -57,7 +61,7 @@ function createMainContainer() {
   }
 
 //Create pet boxes
-function createSearchAll(element) {
+function createSearchAll(element, url) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
     container.setAttribute("class", "divBackground");
@@ -65,7 +69,7 @@ function createSearchAll(element) {
     /////important change url here/////
     let petImage = document.createElement('img');
     //Change SRC to local host if operating in local environment
-    petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
+    petImage.setAttribute('src', `${url}images/${element.image_path}`);
     petImage.classList = 'petImages';
 
     let textDiv = document.createElement("div");
@@ -93,7 +97,7 @@ function createSearchAll(element) {
     document.getElementById(`${element.name}`).addEventListener('click', (e) => {
         deleteCurrentDisplay()
         createsinglePgMainContainer()
-        createLargePage(element)
+        createLargePage(element, url)
     })
 }
 
@@ -106,7 +110,7 @@ function createsinglePgMainContainer() {
 }
 
 //Create Information in Large Page
-function createLargePage(element) {
+function createLargePage(element, url) {
     let container = document.createElement("div");
     container.setAttribute("id", `${element.name}`);
     container.setAttribute("class", "singePage");
@@ -133,7 +137,7 @@ function createLargePage(element) {
     //////import change url here/////
     let petImage = document.createElement('img');
     //Change SRC to local host if operating in local environment
-    petImage.setAttribute('src', `https://pets-8gj1.onrender.com/images/${element.image_path}`);
+    petImage.setAttribute('src', `${url}images/${element.image_path}`);
     petImage.classList = 'singePetImage';
 
     let textDiv = document.createElement("div");
@@ -194,7 +198,7 @@ function createLargePage(element) {
         changeDisplay()
         deleteCurrentDisplay()
         createMainContainer()
-        createPutData(element)
+        createPutData(element, url)
     })
 }
 
@@ -276,7 +280,7 @@ function createPostContainer(){
 }
 
 //Create put container
-function createPutData (element){
+function createPutData (element, url){
     let container = document.createElement("div");
     container.setAttribute("id", `postContainer`);
 
@@ -356,7 +360,7 @@ function createPutData (element){
         formData.append('image', imageInput.files[0]);
 
         //Send data to put route
-        putRequest(formData, element.pet_id);
+        putRequest(formData, element.pet_id, url);
     })
 }
 
@@ -364,7 +368,7 @@ function createPutData (element){
 
 async function postRequest (formData) {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+        const response = await fetch(`${url}pets`, {
             //https://pets-8gj1.onrender.com/pets
             //http://localhost:8000/pets
             method: 'POST',
@@ -401,7 +405,7 @@ async function deleteRequest(id) {
 
 async function getAllRequest () {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets`, {
+        const response = await fetch(`${url}pets`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -409,7 +413,7 @@ async function getAllRequest () {
         })
     const jsonData = await response.json()
    jsonData.forEach(element => {
-        createSearchAll(element)
+        createSearchAll(element, url)
     });
     }
     catch(err){
@@ -419,7 +423,7 @@ async function getAllRequest () {
 
 async function getOneRequest (searchValue) {
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets/${searchValue}`, {
+        const response = await fetch(`${url}pets/${searchValue}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -428,7 +432,7 @@ async function getOneRequest (searchValue) {
     const jsonData = await response.json()
     console.log(jsonData)
     jsonData.forEach(element => {
-        createSearchAll(element)
+        createSearchAll(element, url)
     });
     }
     catch(err){
@@ -436,9 +440,9 @@ async function getOneRequest (searchValue) {
     }
 } 
 
-async function putRequest(formData, id){
+async function putRequest(formData, id, url){
     try {
-        const response = await fetch(`https://pets-8gj1.onrender.com/pets/${id}`, {
+        const response = await fetch(`${url}pets/${id}`, {
             method: 'PUT',
             body: formData,
         }) 

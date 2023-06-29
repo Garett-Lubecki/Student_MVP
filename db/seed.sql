@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS petsdb;
+
+CREATE DATABASE petsdb;
+
+\c petsdb;
+
 DROP TABLE IF EXISTS pets;
 
 CREATE TABLE pets (
